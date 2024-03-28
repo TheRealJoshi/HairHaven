@@ -10,7 +10,7 @@ import { Calendar } from "@/components/ui/calendar"
 import { Textarea } from "@/components/ui/textarea"
 import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@/components/ui/table"
 
-export function dashboard() {
+export default function dashboard() {
   return (
     <div className="bg-[#f4f7fa] min-h-screen">
       <div className="flex h-full">
