@@ -18,15 +18,15 @@ export default function login() {
     <div className="flex h-screen w-full items-center justify-center bg-white">
       <div className="flex w-[400px] flex-col items-center space-y-8">
         <div className="flex flex-col items-center">
-          <h1 className="text-5xl font-bold text-[#342822]">ddcon</h1>
-          {/* <img src="./logo.png" /> */}
-          <p className="text-sm text-[#342822]">where dancers come to play</p>
+          <h1 className="text-5xl font-bold text-[#342822]">hairhaven</h1>
+          {/* <img src="@/assets/logo.png" alt="Centered" /> */}
+          <p className="text-sm text-[#342822]">shape success, snip by snip</p>
           {/* <p className="text-sm text-[#342822]">Sign In</p> */}
         </div>
         <div className="flex w-full flex-col space-y-4">
           <Input placeholder="email id" type="email" onChange ={(e) => setEmail(e.target.value)}/>
           <Input placeholder="password" type="password" onChange = {(e) => setPassword(e.target.value)} />
-          <Button className="w-full text-white bg-[#342822] border-[#342822]" disabled = {!password || !email} onClick={() => signIn('credentials', {email, password, redirect: true, callbackUrl: '/'})}>Sign In</Button>
+          <Button className="w-full text-white bg-[#342822] border-[#342822]" disabled = {!password || !email} onClick={() => signIn('credentials', {email, password, redirect: true, callbackUrl: '/dashboard'})}>Sign In</Button>
           <Button className="w-full text-white bg-[#342822] border-[#342822]" onClick={() => signIn('google')}>Google Sign In</Button>
           <Button className="w-full text-white bg-[#342822] border-[#342822]" onClick ={() => router.push('register')}>Need to Register?</Button>
           <Button className="w-full text-white bg-[#342822] border-[#342822]" onClick ={() => router.push('forgot')}>Forgot Password?</Button>

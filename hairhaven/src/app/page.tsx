@@ -1,10 +1,17 @@
 'use client'
 import Image from "next/image";
+import { redirect } from "next/navigation";
 
 import { signOut, useSession } from "next-auth/react";
 
 export default function Home(){
-  const session = useSession();
+  const session = useSession({
+    required: true,
+    onUnauthenticated() {
+      redirect('/login');
+    },
+  });
+  
 
   return (
     <>
