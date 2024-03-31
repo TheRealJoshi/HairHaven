@@ -18,7 +18,19 @@ export default function login() {
     <div className="flex h-screen w-full items-center justify-center bg-white">
       <div className="flex w-[400px] flex-col items-center space-y-8">
         <div className="flex flex-col items-center">
-          <h1 className="text-5xl font-bold text-[#342822]">hairhaven</h1>
+          {/* <h1 className="text-5xl font-bold text-[#342822]">hairhaven</h1> */}
+          {/* <img
+                  alt="Haircut"
+                  className="mb-4"
+                  height="100"
+                  src="/logo.png" // Update the src attribute with the correct file path or URL
+                  style={{
+                    aspectRatio: "100/100",
+                    objectFit: "cover",
+                  }}
+                  width="100"
+                /> */}
+              <h1 className="text-5xl font-bold text-[#342822]">hairhaven</h1>
           {/* <img src="@/assets/logo.png" alt="Centered" /> */}
           <p className="text-sm text-[#342822]">shape success, snip by snip</p>
           {/* <p className="text-sm text-[#342822]">Sign In</p> */}

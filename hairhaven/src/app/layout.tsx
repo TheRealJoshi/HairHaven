@@ -7,7 +7,8 @@ import SessionProvider from "./SessionProvider";
 // wierd error when SessionProvider vs sessionProvider
 // import Login from "./Login";
 import Login from '@/components/login'
-import Dashboard from '@/components/dashboard'
+// import Dashboard from '@/components/dashboard'
+import Profile from '@/components/exampleprofile';
 import Events from '@/components/events';
 // import Home from "./page";
 
@@ -48,7 +49,8 @@ export default async function RootLayout({
             children
           ): (
             // <Dashboard/>
-            <Events/>
+            // <Events/>
+            <Profile/>
           )}
         </SessionProvider>
       </body>
