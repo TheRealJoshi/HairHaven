@@ -4,8 +4,8 @@
  */
 'use client'
 import React, { useState } from 'react';
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
+import { Input } from "@/app/dashboard/ui/input"
+import { Button } from "@/app/dashboard/ui/button"
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation';
 

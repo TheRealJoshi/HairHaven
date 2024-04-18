@@ -3,10 +3,10 @@
  * @see https://v0.dev/t/ZJLQaKHrdW3
  */
 'use client'
-import { AvatarImage, AvatarFallback, Avatar } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
-import { CardTitle, CardDescription, CardHeader, CardContent, Card } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+import { AvatarImage, AvatarFallback, Avatar } from "@/app/dashboard/ui/avatar"
+import { Button } from "@/app/dashboard/ui/button"
+import { CardTitle, CardDescription, CardHeader, CardContent, Card } from "@/app/dashboard/ui/card"
+import { Badge } from "@/app/dashboard/ui/badge"
 import { signOut, useSession } from "next-auth/react";
 
 export default function events() {

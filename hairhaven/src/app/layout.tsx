@@ -9,6 +9,7 @@ import SessionProvider from "./SessionProvider";
 import Login from '@/components/login'
 // import Dashboard from '@/components/dashboard'
 import Profile from '@/components/exampleprofile';
+import Dashboard from '@/app/dashboard/realdashboard'
 import Events from '@/components/events';
 // import Home from "./page";
 
@@ -50,7 +51,7 @@ export default async function RootLayout({
           ): (
             // <Dashboard/>
             // <Events/>
-            <Profile/>
+            <Dashboard/>
           )}
         </SessionProvider>
       </body>

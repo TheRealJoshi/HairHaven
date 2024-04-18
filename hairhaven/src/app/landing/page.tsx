@@ -3,8 +3,8 @@
  * @see https://v0.dev/t/ULRyeKTY9hV
  */
 import Link from "next/link"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
+import { Input } from "@/app/dashboard/ui/input"
+import { Button } from "@/app/dashboard/ui/button"
 
 export default function landing() {
   return (
