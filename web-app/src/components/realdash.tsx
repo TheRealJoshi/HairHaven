@@ -39,13 +39,13 @@ export default function search() {
                 {state === "Profile" ? (
                     <li onClick={() => setState("Profile")}>
                         <a className="block p-2 bg-gray-200" href="#">
-                            Profile
+                            Customer Search
                         </a>
                     </li>
                 ) : (
                     <li onClick={() => setState("Profile")}>
                         <a className="block p-2 hover:bg-gray-200" href="#">
-                            Profile
+                            Customer Search
                         </a>
                     </li>
                 )}

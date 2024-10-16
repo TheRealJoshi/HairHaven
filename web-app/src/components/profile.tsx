@@ -87,7 +87,7 @@ export default function exampleprofile() {
             
             <Card className="col-span-1">
               <CardHeader>
-                <CardTitle>10:00AM - Om Joshi</CardTitle>
+                <CardTitle>10:00AM - Konstantine Shelby</CardTitle>
                 <p> </p>
                 <div>
                     <h3 className="font-semibold mb-2">Most Recent Visualization</h3>

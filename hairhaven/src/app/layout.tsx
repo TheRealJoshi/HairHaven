@@ -9,7 +9,7 @@ import SessionProvider from "./SessionProvider";
 import Login from '@/components/login'
 // import Dashboard from '@/components/dashboard'
 import Profile from '@/components/exampleprofile';
-import Dashboard from '@/app/dashboard/realdashboard'
+import Dashboard from '@/app/dashboard/Navigator'
 import Events from '@/components/events';
 // import Home from "./page";
 
