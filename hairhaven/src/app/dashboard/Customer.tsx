@@ -1,19 +1,33 @@
 import { useState, useEffect } from 'react';
+import { connect } from 'livekit-client';
 import { AvatarImage, AvatarFallback, Avatar } from "@/app/dashboard/ui/avatar";
 import { Button } from "@/app/dashboard/ui/button";
 import { CardTitle, CardHeader, CardContent, Card } from "@/app/dashboard/ui/card";
 import { Badge } from "@/app/dashboard/ui/badge";
-import { Textarea } from "@/app/dashboard/ui/textarea";
 import { Input } from "@/app/dashboard/ui/input";
+import { Textarea } from "@/app/dashboard/ui/textarea";
+import { FaMicrophone } from 'react-icons/fa'; // Microphone icon from react-icons
 
 export default function Dashboard() {
   const [profile, setProfile] = useState({
     name: 'Konstantin Shelby',
-    stylePreference: 'Prefers shorter sides with more volume on top. Likes to experiment with new trends.',
+    accountId: '73579',
+    referral: 'active',
+    verification: 'verified',
+    hairStyle: 'Short sides, volume on top',
+    hairLength: 'Medium',
+    facialStructure: 'Oval',
+    hairType: 'Curly',
+    hairHealth: 'Healthy',
+    pastHairstyles: 'Undercut, Pompadour',
+    comments: '',
   });
 
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveSuccess, setSaveSuccess] = useState(false);
   const [images, setImages] = useState([]);
-  const [recommendations, setRecommendations] = useState([]); // Hairstyle recommendations
+  const [audioConnected, setAudioConnected] = useState(false); 
+  const [audioElement, setAudioElement] = useState(null); 
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -23,36 +37,65 @@ export default function Dashboard() {
     });
   };
 
-  const handleImageUpload = async (e) => {
+  const handleImageUpload = (e) => {
     const uploadedImages = Array.from(e.target.files);
     setImages([...images, ...uploadedImages]);
-
-    // Convert image files to base64 to send to the backend
-    const base64Images = await Promise.all(uploadedImages.map(fileToBase64));
-
-    // Call the API to get haircut recommendations
-    const response = await fetch('/api/recommend-hairstyles', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        stylePreference: profile.stylePreference,
-        images: base64Images,  // Send base64 image data
-      }),
-    });
-
-    const data = await response.json();
-    setRecommendations(data.topRecommendations); // Set the haircut recommendations
   };
 
-  const fileToBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
+  const autoSave = async () => {
+    setIsSaving(true);
+    setSaveSuccess(false);
+    setTimeout(() => {
+      setIsSaving(false);
+      setSaveSuccess(true);
+    }, 1000);
+  };
+
+  useEffect(() => {
+    if (profile.comments) {
+      autoSave();
+    }
+  }, [profile.comments]);
+
+  // Function to handle connecting to LiveKit for live audio streaming
+  const connectToLiveKit = async () => {
+    if (audioConnected) return;
+
+    try {
+      const room = await connect(process.env.NEXT_PUBLIC_LIVEKIT_URL, {
+        token: process.env.NEXT_PUBLIC_LIVEKIT_API_KEY,
+      });
+      room.on('trackSubscribed', (track) => {
+        if (track.kind === 'audio') {
+          const audioElement = track.attach();
+          document.body.append(audioElement);
+          setAudioElement(audioElement);
+        }
+      });
+
+      // Feed profile details as context to the audio stream
+      const context = {
+        hairStyle: profile.hairStyle,
+        hairLength: profile.hairLength,
+        facialStructure: profile.facialStructure,
+        hairType: profile.hairType,
+        hairHealth: profile.hairHealth,
+        pastHairstyles: profile.pastHairstyles,
+      };
+      console.log("Context fed to LLM:", context);
+
+      setAudioConnected(true);
+    } catch (error) {
+      console.error("Failed to connect to LiveKit:", error);
+    }
+  };
+
+  // Function to disconnect the audio
+  const disconnectAudio = () => {
+    if (audioElement) {
+      audioElement.remove();
+      setAudioConnected(false);
+    }
   };
 
   return (
@@ -82,24 +125,81 @@ export default function Dashboard() {
                       placeholder="Name"
                       className="font-semibold"
                     />
-                    <Badge variant="secondary">verified</Badge>
+                    <Badge variant="secondary">{profile.verification}</Badge>
                   </div>
                 </div>
                 <div className="text-sm">
-                  <p>
-                    Style Preferences: 
-                    <Textarea
-                      name="stylePreference"
-                      value={profile.stylePreference}
-                      onChange={handleInputChange}
-                      placeholder="Update style preferences"
-                    />
-                  </p>
+                  <p>Account ID: <Input name="accountId" value={profile.accountId} onChange={handleInputChange} /></p>
+                  <p>Referral program: <Input name="referral" value={profile.referral} onChange={handleInputChange} /></p>
+                  <p>Account verification: <Input name="verification" value={profile.verification} onChange={handleInputChange} /></p>
                 </div>
               </CardContent>
             </Card>
 
-            {/* Image Gallery and Upload */}
+            {/* Live Audio Stream */}
+            <Card className="col-span-2">
+              <CardHeader>
+                <CardTitle>Live Audio Streaming</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Button onClick={audioConnected ? disconnectAudio : connectToLiveKit}>
+                  {audioConnected ? "Stop Live Audio" : "Start Live Audio"}
+                </Button>
+                {/* Microphone Icon with Animation */}
+                {audioConnected && (
+                  <div className="flex justify-center items-center mt-4">
+                    <FaMicrophone className="text-red-500 animate-pulse" size={50} />
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* Style Preferences */}
+            <Card className="col-span-1">
+              <CardHeader>
+                <CardTitle>Style Preferences</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Input
+                  name="hairStyle"
+                  value={profile.hairStyle}
+                  onChange={handleInputChange}
+                  placeholder="Preferred Hairstyle"
+                />
+                <Input
+                  name="hairLength"
+                  value={profile.hairLength}
+                  onChange={handleInputChange}
+                  placeholder="Hair Length"
+                />
+                <Input
+                  name="facialStructure"
+                  value={profile.facialStructure}
+                  onChange={handleInputChange}
+                  placeholder="Facial Structure"
+                />
+                <Input
+                  name="hairType"
+                  value={profile.hairType}
+                  onChange={handleInputChange}
+                  placeholder="Hair Type"
+                />
+                <Input
+                  name="hairHealth"
+                  value={profile.hairHealth}
+                  onChange={handleInputChange}
+                  placeholder="Hair Health"
+                />
+                <Textarea
+                  name="pastHairstyles"
+                  value={profile.pastHairstyles}
+                  onChange={handleInputChange}
+                  placeholder="Past Hairstyles"
+                />
+              </CardContent>
+            </Card>
+
+            {/* Image Gallery */}
             <Card className="col-span-2">
               <CardHeader>
                 <CardTitle>Haircut Gallery</CardTitle>
@@ -114,31 +214,11 @@ export default function Dashboard() {
                       className="rounded-md"
                       height="100"
                       src={URL.createObjectURL(image)}
-                      style={{
-                        objectFit: "cover",
-                      }}
+                      style={{ objectFit: "cover" }}
                       width="100"
                     />
                   ))}
                 </div>
-              </CardContent>
-            </Card>
-
-            {/* Hairstyle Recommendations */}
-            <Card className="col-span-2">
-              <CardHeader>
-                <CardTitle>Hairstyle Recommendations</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-4">
-                  {recommendations.map((recommendation, index) => (
-                    <li key={index} className="border-b pb-2">
-                      <h3 className="text-lg font-semibold">Recommendation {index + 1}:</h3>
-                      <p>{recommendation.style}</p>
-                      <p className="text-sm text-gray-500">{recommendation.justification}</p>
-                    </li>
-                  ))}
-                </ul>
               </CardContent>
             </Card>
           </div>

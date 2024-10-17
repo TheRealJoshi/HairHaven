@@ -54,19 +54,25 @@ export default function Search() {
     setUserInput(e.target.value);
   };
 
-  const handleAiChatSubmit = async (e) => {
+  const handleAiChatSubmit = async (e, ) => {
     e.preventDefault();
     try {
       const response = await fetch('https://api.cerebras.ai/v1/chat/completions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer csk-t2jcnr6258vty3tk2j32n48mdp4n2p2e5vrcyke2c5hp4f26`, // Ensure this key is in your environment variables
+          'Authorization': `Bearer ${process.env.CEREBRAS_API_KEY}`, // Ensure this key is in your environment variables
         },
         body: JSON.stringify({
           model: 'llama3.1-8b',
           stream: false,
-          messages: [{ content: userInput, role: 'user' }],
+          messages: [
+            {
+              role: 'system',
+              content: 'Please respond concisely without using any markdown notation. Include short but effective reasoning if necessary. This is the history in my past' + `${selectedCustomer.history}`,
+            },
+            { role: 'user', content: userInput },
+          ],
           temperature: 0,
           max_completion_tokens: -1,
           seed: 0,

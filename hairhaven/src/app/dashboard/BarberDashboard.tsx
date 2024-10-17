@@ -14,14 +14,26 @@ export default function BarberDashboard() {
       id: 1,
       name: "John Doe",
       avatar: "/john-doe.jpg",
-      preferences: "Prefers modern styles.",
+      preferences: {
+        style: "Prefers modern styles.",
+        hairTexture: "Curly",
+        hairLength: "Short",
+        hairType: "Thick",
+        hairCondition: "Healthy",
+      },
       appointmentDate: new Date(2024, 3, 15), // Months are 0-indexed
     },
     {
       id: 2,
       name: "Jane Smith",
       avatar: "/jane-smith.jpg",
-      preferences: "Likes traditional cuts.",
+      preferences: {
+        style: "Likes traditional cuts.",
+        hairTexture: "Straight",
+        hairLength: "Medium",
+        hairType: "Fine",
+        hairCondition: "Dry",
+      },
       appointmentDate: new Date(2024, 4, 20),
     },
   ]);

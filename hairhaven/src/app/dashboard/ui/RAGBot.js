@@ -12,13 +12,13 @@ export default function RAGBot({ users }) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer csk-t2jcnr6258vty3tk2j32n48mdp4n2p2e5vrcyke2c5hp4f26`, // Ensure this key is in your environment variables
+          'Authorization': `Bearer ${process.env.CEREBRAS_API_KEY}`, // Ensure this key is in your environment variables
         },
         body: JSON.stringify({
           model: 'llama3.1-8b',
           stream: false,
           messages: [
-            { role: 'system', content: 'You are a haircare expert. Provide advice on haircuts, hair styling, and hair care. Your answers should be specific and expert-level.' },
+            { role: 'system', content: 'You are a haircare expert with a list of clients. Provide advice on haircuts, hair styling, and hair care. Make sure to reference names based on the data provided. Your answers should be specific and expert-level.' + `${users}`},
             { role: 'user', content: userInput }
           ],
           temperature: 0,
@@ -45,7 +45,7 @@ export default function RAGBot({ users }) {
     <div className="bg-gray-900 p-4 rounded-md shadow-md text-white">
       <form onSubmit={handleAiChatSubmit} className="space-y-4">
         <label htmlFor="userInput" className="block text-lg font-semibold">
-          Ask the Bot:
+          Find out about users:
         </label>
         <input
           type="text"

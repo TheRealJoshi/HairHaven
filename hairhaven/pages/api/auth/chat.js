@@ -1,7 +1,7 @@
 import Cerebras from '@cerebras/cerebras_cloud_sdk';
 
 const client = new Cerebras({
-  apiKey: "csk-t2jcnr6258vty3tk2j32n48mdp4n2p2e5vrcyke2c5hp4f26", // Ensure the API key is stored securely in .env.local
+  apiKey: process.env.CEREBRAS_API_KEY, // Ensure the API key is stored securely in .env.local
 });
 
 export default async function handler(req, res) {

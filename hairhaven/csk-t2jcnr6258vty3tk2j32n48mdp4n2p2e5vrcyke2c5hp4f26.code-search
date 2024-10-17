@@ -1,0 +1,27 @@
+# Query: csk-t2jcnr6258vty3tk2j32n48mdp4n2p2e5vrcyke2c5hp4f26
+# ContextLines: 1
+
+5 results - 5 files
+
+hairhaven/.env:
+  1: CEREBRAS_API_KEY=csk-t2jcnr6258vty3tk2j32n48mdp4n2p2e5vrcyke2c5hp4f26
+
+hairhaven/pages/api/auth/chat.js:
+  3  const client = new Cerebras({
+  4:   apiKey: process.env.CEREBRAS_API_KEY, // Ensure the API key is stored securely in .env.local
+  5  });
+
+hairhaven/src/app/dashboard/CustomerSearch.tsx:
+  63            'Content-Type': 'application/json',
+  64:           'Authorization': `Bearer ${process.env.CEREBRAS_API_KEY}`, // Ensure this key is in your environment variables
+  65          },
+
+hairhaven/src/app/dashboard/ui/RAGBot.js:
+  14            'Content-Type': 'application/json',
+  15:           'Authorization': `Bearer ${process.env.CEREBRAS_API_KEY}`, // Ensure this key is in your environment variables
+  16          },
+
+livechat/fast-voice-assistant/.env:
+  5  CARTESIA_API_KEY=fb808f7b-d5e5-45ab-a4ab-bd0486e98ff2
+  6: CEREBRAS_API_KEY=csk-t2jcnr6258vty3tk2j32n48mdp4n2p2e5vrcyke2c5hp4f26
+  7  
